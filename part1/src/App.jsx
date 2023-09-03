@@ -1,14 +1,24 @@
-const Header = () => {
-  return ();
+const Header = (props) => {
+  return (
+    <div>
+      <h1>{props.course}</h1>
+    </div>
+  );
 } 
 
-const Content = () => {
-  return ();
+const Content = (props) => {
+  return (
+    <div>
+      <p>{props.part1} {props.exercise1}</p>
+      <p>{props.part2} {props.exercise2}</p>
+      <p>{props.part3} {props.exercise3}</p>
+    </div>
+  );
 }
 
-const Total  = () => {
-  return ();
-}
+// const Total  = () => {
+  // return ();
+// }
 
 const App = () => {
   const course = 'Half Stack application development'
@@ -22,8 +32,8 @@ const App = () => {
   return (
     <div>
       <Header course={course}/>
-      <Content />
-      <Total />
+      <Content part1={part1} exercise1={exercises1} part2={part2} exercise2={exercises2} part3={part3} exercise3={exercises3}/>
+      {/* <Total /> */}
     </div>
   )
 }
