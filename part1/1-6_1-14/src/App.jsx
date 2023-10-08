@@ -24,14 +24,25 @@ const App = () => {
     setGood(newFeedback)
   }
 
+  const addNeutralFeedback = () => {
+    const newFeedback = neutral + 1
+    setNeutral(newFeedback)
+  }
+
+  const addBadFeedback = () => {
+    const newFeedback = bad + 1
+    setBad(newFeedback)
+  }
+
   return (
     <>
       <section>
         <h1>Give feedback</h1>
         <Button text="good" handleClick={addGoodFeedback} />
-        <button>neutral</button>
-        <button>bad</button>
+        <Button text="neutral" handleClick={addNeutralFeedback} />
+        <Button text="bad" handleClick={addBadFeedback} />
       </section>
+
       <section>
         <h1>statistics</h1>
         <Display title="good" value={good} />
