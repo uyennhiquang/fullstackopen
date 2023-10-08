@@ -18,21 +18,36 @@ const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
+  
+  const [total, setTotal] = useState(0)
 
+  // These 3 functions update state
   const addGoodFeedback = () => {
     const newFeedback = good + 1
     setGood(newFeedback)
+    
+    const newTotal = newFeedback + neutral + bad
+    setTotal(newTotal)
   }
 
   const addNeutralFeedback = () => {
     const newFeedback = neutral + 1
     setNeutral(newFeedback)
+    
+    const newTotal = good + newFeedback + bad
+    setTotal(newTotal)
   }
 
   const addBadFeedback = () => {
     const newFeedback = bad + 1
     setBad(newFeedback)
+    
+    const newTotal = good + neutral + newFeedback
+    setTotal(newTotal)
   }
+
+
+  // Calculate average
 
   return (
     <>
@@ -48,6 +63,7 @@ const App = () => {
         <Display title="good" value={good} />
         <Display title="neutral" value={neutral} />
         <Display title="bad" value={bad} />
+        <Display title="total" value={total} />
       </section>
     </>
   );
