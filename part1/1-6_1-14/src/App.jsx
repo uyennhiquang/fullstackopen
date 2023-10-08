@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 
+const Button = (props) => {
+  return(<button onClick={props.handleClick}>{props.text}</button>)
+}
+
 const Display = (props) => {
   return (
     <div>
@@ -24,8 +28,7 @@ const App = () => {
     <>
       <section>
         <h1>Give feedback</h1>
-        {/* <Button title="good" handleClick={addGoodFeedback} /> */}
-        <button onClick={addGoodFeedback}>good</button>
+        <Button text="good" handleClick={addGoodFeedback} />
         <button>neutral</button>
         <button>bad</button>
       </section>
