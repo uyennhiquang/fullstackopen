@@ -20,6 +20,7 @@ const App = () => {
   const [bad, setBad] = useState(0);
 
   const [total, setTotal] = useState(0);
+  const [average, setAverage] = useState(0);
 
   const addFeedback = (feedback) => () => {
     let newGood = good;
@@ -44,9 +45,9 @@ const App = () => {
     const newTotal = newGood + newNeutral + newBad;
     setTotal(newTotal);
 
-    console.log("total after", newTotal);
-
-    // Calculate average
+    // Calculate average (good: 1, neutral: 0, bad: -1)
+    const newAverage = ((newGood * 1) + (newNeutral * 0) + (newBad * -1)) / newTotal
+    setAverage(newAverage)
   };
 
 
@@ -67,6 +68,7 @@ const App = () => {
         <Display title="neutral" value={neutral} />
         <Display title="bad" value={bad} />
         <Display title="total" value={total} />
+        <Display title="average" value={average} />
       </section>
     </>
   );
