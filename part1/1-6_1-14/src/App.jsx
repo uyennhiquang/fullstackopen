@@ -55,7 +55,6 @@ const App = () => {
     <>
       <section>
         <h1>Give feedback</h1>
-        {/* <Button text="good" handleClick={addGoodFeedback} /> */}
         <Button text="good" handleClick={addFeedback("good")} />
 
         <Button text="neutral" handleClick={addFeedback("neutral")} />
