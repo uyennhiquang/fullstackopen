@@ -21,6 +21,7 @@ const App = () => {
 
   const [total, setTotal] = useState(0);
   const [average, setAverage] = useState(0);
+  const [positiveRatio, setPositiveRatio] = useState(0)
 
   const addFeedback = (feedback) => () => {
     let newGood = good;
@@ -48,8 +49,11 @@ const App = () => {
     // Calculate average (good: 1, neutral: 0, bad: -1)
     const newAverage = ((newGood * 1) + (newNeutral * 0) + (newBad * -1)) / newTotal
     setAverage(newAverage)
-  };
 
+    // Calculate positive
+    const newPositiveRatio = (newGood / newTotal) * 100
+    setPositiveRatio(newPositiveRatio)
+  };
 
   return (
     <>
@@ -68,6 +72,7 @@ const App = () => {
         <Display title="bad" value={bad} />
         <Display title="total" value={total} />
         <Display title="average" value={average} />
+        <Display title="positive" value={positiveRatio + "%"}/> {/* Is this a good idea...? */}
       </section>
     </>
   );
