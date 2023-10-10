@@ -55,6 +55,15 @@ const App = () => {
     setPositiveRatio(newPositiveRatio)
   };
 
+  /* Interestingly enough, when incremented directly, the updated good variable seems to be printed correctly outside of the "if" statement, meaning when the if statement is done running, the state variables are updated. */
+  // console.log("Updated good (incrementing directly)", good)
+  // setTotal(total + 1);
+  // console.log("Updated total", total)
+  
+  // On first increment, this will yield 0/0. This is because the setting function uses the 2 state variables that were directly incremented inside, so at the time they wouldn't have been updated yet. If we want to update any variables that rely on our 3 main state variables, it seems that we can *technically* do it outside of the if statement, in theory. In practice, it seems that placing the updating function in the main function seems to cause the function to render "infinitely".
+  // In general, calling the state-updating function directly from the main component seems to cause problems (e.g updating infinitely). 
+  // setPositiveRatio(1)
+  
   return (
     <>
       <section>
