@@ -21,22 +21,21 @@ const App = () => {
 
   const [total, setTotal] = useState(0);
 
-  console.log("total after (re-render)", total)
   // These 3 functions update state
   // const addGoodFeedback = () => {
-    // const newFeedback = good + 1;
-    // setGood(newFeedback);
-// 
-    // const newTotal = newFeedback + neutral + bad;
-    // setTotal(newTotal);
+  // const newFeedback = good + 1;
+  // setGood(newFeedback);
+  //
+  // const newTotal = newFeedback + neutral + bad;
+  // setTotal(newTotal);
   // };
 
   // const addNeutralFeedback = () => {
-    // const newFeedback = neutral + 1;
-    // setNeutral(newFeedback);
-// 
-    // const newTotal = good + newFeedback + bad;
-    // setTotal(newTotal);
+  // const newFeedback = neutral + 1;
+  // setNeutral(newFeedback);
+  //
+  // const newTotal = good + newFeedback + bad;
+  // setTotal(newTotal);
   // };
 
   // const addBadFeedback = () => {
@@ -48,25 +47,27 @@ const App = () => {
   // };
 
   const addFeedback = (feedback) => () => {
+    let newGood = good;
+    let newNeutral = neutral;
+    let newBad = bad;
+
     if (feedback == "good") {
-      // const newFeedback = good + 1;
-      // setGood(newFeedback);
 
-      setGood(good + 1);
+      newGood += 1
+      setGood(newGood);
     } else if (feedback == "neutral") {
-      // const newFeedback = neutral + 1;
-      // setNeutral(newFeedback);
-
-      setNeutral(neutral + 1);
+      
+      newNeutral += 1
+      setNeutral(newNeutral);
     } else if (feedback == "bad") {
-      // const newFeedback = bad + 1;
-      // setBad(newFeedback);
 
-      setBad(bad + 1);
+      newBad += 1
+      setBad(newBad);
     }
-    console.log("total before", total)
+    const newTotal = newGood + newNeutral + newBad;
+    setTotal(newTotal);
 
-    setTotal(total + 1);
+    console.log("total after", newTotal);
   };
 
   // Calculate average
@@ -78,8 +79,8 @@ const App = () => {
         {/* <Button text="good" handleClick={addGoodFeedback} /> */}
         <Button text="good" handleClick={addFeedback("good")} />
 
-        <Button text="neutral" handleClick={addNeutralFeedback} />
-        <Button text="bad" handleClick={addBadFeedback} />
+        <Button text="neutral" handleClick={addFeedback("neutral")} />
+        <Button text="bad" handleClick={addFeedback("bad")} />
       </section>
 
       <section>
