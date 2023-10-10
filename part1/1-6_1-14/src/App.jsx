@@ -25,18 +25,39 @@ const App = () => {
   };
 
   const addVote = (selected) => () => {
-    const copyArr = [...votes]
-    copyArr[selected] += 1
-    setVotes(copyArr)
-  }
+    const copyArr = [...votes];
+    copyArr[selected] += 1;
+    setVotes(copyArr);
+  };
+
+  const mostVoteAnecdote = () => {
+    let maxVotes = 0;
+    let maxVotesQuote = 0;
+    for (let i = 0; i < anecdotesLen; i++) {
+      if (votes[i] > maxVotes) {
+        maxVotes = votes[i];
+        maxVotesQuote = i;
+      }
+    }
+
+    return maxVotesQuote;
+  };
 
   return (
-    <div>
-      <p>{anecdotes[selected]}</p>
-      <p>has {votes[selected]} votes</p>
-      <button onClick={addVote(selected)}>vote</button>
-      <button onClick={assignNewSelected}>next anecdote</button>
-    </div>
+    <>
+      <section>
+        <h1>Anecdote of the day</h1>
+        <p>{anecdotes[selected]}</p>
+        <p>has {votes[selected]} votes</p>
+        <button onClick={addVote(selected)}>vote</button>
+        <button onClick={assignNewSelected}>next anecdote</button>
+      </section>
+      <section>
+        <h1>Anecdote with most votes</h1>
+        <p>{anecdotes[mostVoteAnecdote()]}</p>
+        <p>has {votes[mostVoteAnecdote()]} votes</p>
+      </section>
+    </>
   );
 };
 
