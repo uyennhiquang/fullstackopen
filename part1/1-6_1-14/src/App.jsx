@@ -21,31 +21,6 @@ const App = () => {
 
   const [total, setTotal] = useState(0);
 
-  // These 3 functions update state
-  // const addGoodFeedback = () => {
-  // const newFeedback = good + 1;
-  // setGood(newFeedback);
-  //
-  // const newTotal = newFeedback + neutral + bad;
-  // setTotal(newTotal);
-  // };
-
-  // const addNeutralFeedback = () => {
-  // const newFeedback = neutral + 1;
-  // setNeutral(newFeedback);
-  //
-  // const newTotal = good + newFeedback + bad;
-  // setTotal(newTotal);
-  // };
-
-  // const addBadFeedback = () => {
-  //   const newFeedback = bad + 1;
-  //   setBad(newFeedback);
-
-  //   const newTotal = good + neutral + newFeedback;
-  //   setTotal(newTotal);
-  // };
-
   const addFeedback = (feedback) => () => {
     let newGood = good;
     let newNeutral = neutral;
@@ -64,13 +39,16 @@ const App = () => {
       newBad += 1
       setBad(newBad);
     }
+    
+    // Calculate total
     const newTotal = newGood + newNeutral + newBad;
     setTotal(newTotal);
 
     console.log("total after", newTotal);
+
+    // Calculate average
   };
 
-  // Calculate average
 
   return (
     <>
