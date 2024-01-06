@@ -4,11 +4,22 @@ const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState("");
 
+  const isIn = (person, persons) => {
+    for (let i = 0; i < persons.length; i++) {
+      if (JSON.stringify(person) === JSON.stringify(persons[i])) return true
+    }
+    return false
+  }
+
   const handleNewInput = e => setNewName(e.target.value)
   const addName = (e) => {
     e.preventDefault()
     const personObject = { name: newName}
-    setPersons(persons.concat(personObject))
+    if (!isIn(personObject, persons))    
+      setPersons(persons.concat(personObject))
+    else {
+      alert(`${newName} is already added to phonebook`)
+    }
     setNewName("")
   }
 
