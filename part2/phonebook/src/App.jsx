@@ -2,13 +2,34 @@
 import personServices from "./services/persons";
 import { useState, useEffect } from "react";
 
-const BASE_LINK = "http://localhost:3001/persons";
+const StatusMessage = ({ value }) => {
+  const message = value ? `Added ${value}` : "";
+  // let message = null;
+  // if (value === null) {
+    // message = "";
+  // } else {
+    // message = `Added ${value}`;
+  // }
+  const s = {
+    color: "red",
+    background: "lightgrey",
+    fontSize: "20px",
+    borderStyle: "solid",
+    borderRadius: "5px",
+    padding: "10px",
+    marginBottom: "10px",
+  };
+
+  return <div style={s}>{message}</div>;
+};
+
 const Filter = (props) => (
   <>
     <p>filter shown with</p>
     <input value={props.filterValue} onChange={props.onChangeFilter} />
   </>
 );
+
 const PersonForm = (props) => (
   <>
     <form>
@@ -56,6 +77,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [personFilter, setPersonFilter] = useState("");
+  const [statusMessage, setStatusMessage] = useState(null);
 
   useEffect(() => {
     personServices.getAll().then((persons) => setPersons(persons));
@@ -83,6 +105,8 @@ const App = () => {
       personServices
         .create(personObject)
         .then((thePerson) => setPersons(persons.concat(thePerson)));
+      setStatusMessage(personObject.name);
+      setTimeout(() => setStatusMessage(null), 5000);
     } else {
       alert(`${newName} is already added to phonebook`);
     }
@@ -95,7 +119,7 @@ const App = () => {
   );
 
   const deletePersonOfId = (id) => {
-    if (window.confirm(`Delete ${persons[id-1].name}?`)) {
+    if (window.confirm(`Delete ${persons[id - 1].name}?`)) {
       setPersons(persons.filter((p) => p.id !== id));
       personServices.deleteEntry(id);
     }
@@ -104,6 +128,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <StatusMessage value={statusMessage} />
       <Filter filterValue={personFilter} onChangeFilter={handlePersonFilter} />
       <PersonForm
         nameValue={newName}
