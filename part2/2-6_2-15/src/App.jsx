@@ -1,6 +1,8 @@
-import axios from "axios";
+// import axios from "axios";
+import personServices from "./services/persons";
 import { useState, useEffect } from "react";
 
+const BASE_LINK = "http://localhost:3001/persons";
 const Filter = (props) => (
   <>
     <p>filter shown with</p>
@@ -27,15 +29,26 @@ const PersonForm = (props) => (
   </>
 );
 
-const Persons = ({ persons }) => (
-  <>
+const Person = ({ person, deletePerson }) => (
+  <li>
+    {person.name} {person.number}
+    <button onClick={deletePerson}>delete</button>
+  </li>
+);
+
+const Persons = ({ persons, deletePerson }) => (
+  <section>
     <h2>Numbers</h2>
-    {persons.map((person) => (
-      <p key={person.id}>
-        {person.name} {person.number}
-      </p>
-    ))}
-  </>
+    <ul>
+      {persons.map((person) => (
+        <Person
+          key={person.id}
+          person={person}
+          deletePerson={() => deletePerson(person.id)}
+        />
+      ))}
+    </ul>
+  </section>
 );
 
 const App = () => {
@@ -45,9 +58,7 @@ const App = () => {
   const [personFilter, setPersonFilter] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then((response) => setPersons(response.data));
+    personServices.getAll().then((persons) => setPersons(persons));
   }, []);
 
   const isIn = (person, persons) => {
@@ -68,16 +79,27 @@ const App = () => {
       number: newNumber,
       id: persons.length + 1,
     };
-    if (!isIn(personObject, persons)) setPersons(persons.concat(personObject));
-    else {
+    if (!isIn(personObject, persons)) {
+      personServices
+        .create(personObject)
+        .then((thePerson) => setPersons(persons.concat(thePerson)));
+    } else {
       alert(`${newName} is already added to phonebook`);
     }
     setNewName("");
     setNewNumber("");
   };
+
   const personsToDisplay = persons.filter((person) =>
     person.name.toLowerCase().includes(personFilter.toLowerCase())
   );
+
+  const deletePersonOfId = (id) => {
+    if (window.confirm(`Delete ${persons[id-1].name}?`)) {
+      setPersons(persons.filter((p) => p.id !== id));
+      personServices.deleteEntry(id);
+    }
+  };
 
   return (
     <div>
@@ -90,7 +112,7 @@ const App = () => {
         onChangeNumber={handleNewNumber}
         submitOnClick={addEntry}
       />
-      <Persons persons={personsToDisplay} />
+      <Persons persons={personsToDisplay} deletePerson={deletePersonOfId} />
     </div>
   );
 };
