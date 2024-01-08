@@ -68,7 +68,7 @@ const Persons = ({ persons, deletePerson }) => (
 );
 
 const App = () => {
-  const [persons, setPersons] = useState([]);
+  const [persons, setPersons] = useState(null);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [personFilter, setPersonFilter] = useState("");
@@ -77,6 +77,10 @@ const App = () => {
   useEffect(() => {
     personServices.retrieve().then((persons) => setPersons(persons));
   }, []);
+
+  if (!persons) {
+    return null
+  }
 
   const isIn = (person, persons) => {
     for (let i = 0; i < persons.length; i++) {
