@@ -4,12 +4,7 @@ import { useState, useEffect } from "react";
 
 const StatusMessage = ({ value }) => {
   const message = value ? `Added ${value}` : "";
-  // let message = null;
-  // if (value === null) {
-    // message = "";
-  // } else {
-    // message = `Added ${value}`;
-  // }
+
   const s = {
     color: "red",
     background: "lightgrey",
@@ -80,14 +75,14 @@ const App = () => {
   const [statusMessage, setStatusMessage] = useState(null);
 
   useEffect(() => {
-    personServices.getAll().then((persons) => setPersons(persons));
+    personServices.retrieve().then((persons) => setPersons(persons));
   }, []);
 
   const isIn = (person, persons) => {
     for (let i = 0; i < persons.length; i++) {
-      if (person.name === persons[i].name) return true;
+      if (person.name === persons[i].name) return persons[i].id;
     }
-    return false;
+    return -1;
   };
 
   const handleNewName = (e) => setNewName(e.target.value);
@@ -99,16 +94,28 @@ const App = () => {
     const personObject = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     };
-    if (!isIn(personObject, persons)) {
+    const isPersonIn = isIn(personObject, persons);
+    if (isPersonIn === -1) {
       personServices
         .create(personObject)
         .then((thePerson) => setPersons(persons.concat(thePerson)));
       setStatusMessage(personObject.name);
       setTimeout(() => setStatusMessage(null), 5000);
     } else {
-      alert(`${newName} is already added to phonebook`);
+      if (
+        window.confirm(
+          `${newName} is in the phonebook. Do you wish to change his/her phone number?`
+        )
+      ) {
+        personServices
+          .update(isPersonIn, personObject)
+          .then((theUpdatedPerson) =>
+            setPersons(
+              persons.map((p) => (p.id === isPersonIn ? theUpdatedPerson : p))
+            )
+          );
+      }
     }
     setNewName("");
     setNewNumber("");
